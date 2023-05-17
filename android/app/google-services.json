@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "236227022000",
+    "project_id": "nfc-id-reader",
+    "storage_bucket": "nfc-id-reader.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236227022000:android:48128481f2841bea103f75",
+        "android_client_info": {
+          "package_name": "com.example.nfc_id_reader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236227022000-nkpqbtldghib8euusu5rkg86uvq96235.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW4ydUQ6N0GMR_1TMatAQbpmSMA5NwWUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236227022000-nkpqbtldghib8euusu5rkg86uvq96235.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

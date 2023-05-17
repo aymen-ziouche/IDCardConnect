@@ -1,0 +1,407 @@
+import 'package:flutter/material.dart';
+import 'package:nfc_id_reader/providers/userprovider.dart';
+import 'package:nfc_id_reader/screens/auth/login.dart';
+import 'package:nfc_id_reader/screens/home/editprofile.dart';
+import 'package:nfc_id_reader/services/auth.dart';
+import 'package:provider/provider.dart';
+
+class ProfilePage extends StatefulWidget {
+  ProfilePage({Key? key}) : super(key: key);
+  static String id = "ProfilePage";
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final userProvider = context.read<UserProvider>();
+    userProvider.fetchUser();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<UserProvider>(
+      builder: (context, provider, child) {
+        if (provider.user == null) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.indigo,
+              strokeWidth: 5,
+            ),
+          );
+        }
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            title: Text("Profile Page"),
+            actions: [
+              PopupMenuButton(itemBuilder: (context) {
+                return const [
+                  PopupMenuItem<int>(
+                    value: 0,
+                    child: Text("Edit Profile"),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 1,
+                    child: Text("Logout"),
+                  ),
+                ];
+              }, onSelected: (value) {
+                if (value == 0) {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                            create: (_) => UserProvider(),
+                            child: EditProfile(
+                              myprovider: provider,
+                            )),
+                      ));
+                } else if (value == 1) {
+                  final _auth = Auth();
+                  Future<void> _logout() async {
+                    try {
+                      await _auth.logout();
+
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Login()),
+                        (Route<dynamic> route) => false,
+                      );
+                    } catch (e) {
+                      debugPrint('logout error: $e');
+                    }
+                  }
+                }
+              }),
+            ],
+          ),
+          body: Padding(
+            padding:
+                const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 60.0),
+            child: SafeArea(
+                child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 160,
+                    width: double.infinity,
+                    child: CircleAvatar(
+                      radius: 100,
+                      backgroundImage:
+                          NetworkImage(provider.user!.profilePicture),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: Text(
+                            "Name:",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          provider.user!.name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: Text(
+                            "Email :",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          provider.user!.email,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  provider.user!.doc_num.isEmpty
+                      ? const SizedBox()
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Your Saved Data: ",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "First Name:",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    provider.user!.firstname,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "Last Name:",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    provider.user!.lastname,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "Country:",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    provider.user!.country,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "Nationality:",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    provider.user!.nationality,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "Document code:",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    provider.user!.doc_code,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "Document Number:",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    provider.user!.doc_num,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "Date of Birth:",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    provider.user!.date_of_birth,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "Date of expiry:",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    provider.user!.date_of_expiry,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                ],
+              ),
+            )),
+          ),
+        );
+      },
+    );
+  }
+}

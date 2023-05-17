@@ -1,0 +1,246 @@
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:nfc_id_reader/providers/userprovider.dart';
+import 'package:nfc_id_reader/screens/auth/login.dart';
+import 'package:nfc_id_reader/screens/home/homepage.dart';
+import 'package:nfc_id_reader/screens/home/scancardpage.dart';
+import 'package:nfc_id_reader/services/auth.dart';
+import 'package:nfc_id_reader/widgets/mainButton.dart';
+import 'package:provider/provider.dart';
+
+class Register extends StatefulWidget {
+  const Register({Key? key}) : super(key: key);
+  static String id = "Register";
+
+  @override
+  State<Register> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _emailFocusNode = FocusNode();
+  final _nameFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  final _auth = Auth();
+  late File _image = File('');
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Scaffold(
+          body: Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    const Color(0xff827397),
+                    Theme.of(context).primaryColor,
+                  ],
+                ),
+                color: Theme.of(context).primaryColor,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(200),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 30,
+              ),
+              child: Form(
+                key: _globalKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Register",
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                      ),
+                      const SizedBox(height: 70.0),
+                      Center(
+                        child: InkWell(
+                          onTap: () async {
+                            final pickedFile = await ImagePicker().pickImage(
+                              source: ImageSource.gallery,
+                            );
+                            if (pickedFile != null) {
+                              print(pickedFile.path);
+                              setState(() {
+                                _image = File(pickedFile.path);
+                              });
+                            } else {
+                              print('No image selected.');
+                            }
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Theme.of(context).primaryColor,
+                            radius: 70,
+                            child: const Icon(
+                              Icons.person,
+                              color: Colors.white,
+                              size: 70,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 34.0),
+                      TextFormField(
+                        controller: _nameController,
+                        focusNode: _nameFocusNode,
+                        onEditingComplete: () => FocusScope.of(context)
+                            .requestFocus(_emailFocusNode),
+                        textInputAction: TextInputAction.next,
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        validator: (val) =>
+                            val!.isEmpty ? 'Please enter your name!' : null,
+                        decoration: const InputDecoration(
+                          labelText: 'Name',
+                          hintText: 'Enter your Name!',
+                          hintStyle: TextStyle(
+                            color: Colors.black54,
+                          ),
+                          labelStyle: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 34.0),
+                      TextFormField(
+                        controller: _emailController,
+                        focusNode: _emailFocusNode,
+                        onEditingComplete: () => FocusScope.of(context)
+                            .requestFocus(_passwordFocusNode),
+                        textInputAction: TextInputAction.next,
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        validator: (val) =>
+                            val!.isEmpty ? 'Please enter your email!' : null,
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                          hintText: 'Enter your email!',
+                          hintStyle: TextStyle(
+                            color: Colors.black54,
+                          ),
+                          labelStyle: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 34.0),
+                      TextFormField(
+                        controller: _passwordController,
+                        focusNode: _passwordFocusNode,
+                        validator: (val) =>
+                            val!.isEmpty ? 'Please enter your password!' : null,
+                        obscureText: true,
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          hintText: 'Enter your pasword!',
+                          hintStyle: TextStyle(
+                            color: Colors.black54,
+                          ),
+                          labelStyle: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Already have an account?",
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          InkWell(
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            onTap: () {
+                              Navigator.pushReplacementNamed(context, Login.id);
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30.0),
+                      MainButton(
+                        text: "Register",
+                        hasCircularBorder: true,
+                        onTap: () async {
+                          if (_globalKey.currentState!.validate()) {
+                            _globalKey.currentState!.save();
+                            try {
+                              final authresult = await _auth.signUp(
+                                _emailController.text,
+                                _passwordController.text,
+                                _nameController.text,
+                                _image,
+                              );
+                              print(authresult.user!.email);
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    e.toString(),
+                                  ),
+                                ),
+                              );
+                            }
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChangeNotifierProvider(
+                                    create: (_) => UserProvider(),
+                                    child: const HomePage()),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
