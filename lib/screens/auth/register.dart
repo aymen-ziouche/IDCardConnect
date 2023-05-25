@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
@@ -44,6 +45,11 @@ class _RegisterState extends State<Register> {
     // TODO: implement initState
     super.initState();
     _passwordVisible = false;
+  }
+
+  bool validateNumber(String input) {
+    RegExp pattern = RegExp(r'^0\d+$');
+    return pattern.hasMatch(input);
   }
 
   @override
@@ -178,9 +184,18 @@ class _RegisterState extends State<Register> {
                                 style: const TextStyle(
                                   color: Colors.black,
                                 ),
-                                validator: (val) => val!.isEmpty
-                                    ? 'Please enter your Number!'
-                                    : null,
+                                validator: (val) {
+                                  if (val!.isEmpty) {
+                                    return 'Please enter your Number!';
+                                  } else if (!validateNumber(val)) {
+                                    return 'Invalid number. Number should start with 0.';
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]')),
+                                ],
                                 decoration: const InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.phone,
@@ -203,9 +218,7 @@ class _RegisterState extends State<Register> {
                                 validator: (val) => val!.isEmpty
                                     ? 'Please enter your password!'
                                     : null,
-                                obscureText:
-                                    !_passwordVisible, //This will obscure text dynamically
-
+                                obscureText: !_passwordVisible,
                                 style: const TextStyle(
                                   color: Colors.black,
                                 ),
@@ -241,12 +254,12 @@ class _RegisterState extends State<Register> {
                                 controller: _confirmpasswordController,
                                 focusNode: _confirmpasswordFocusNode,
                                 validator: (val) {
-                                  val!.isEmpty
-                                      ? 'Please confirm password!'
-                                      : null;
-                                  val != _passwordController.text
-                                      ? "Enter the right password"
-                                      : null;
+                                  if (val!.isEmpty) {
+                                    return 'Please confirm password!';
+                                  } else if (val != _passwordController.text) {
+                                    return 'Passwords do not match!';
+                                  }
+                                  return null;
                                 },
                                 obscureText: true,
                                 style: const TextStyle(
@@ -257,8 +270,8 @@ class _RegisterState extends State<Register> {
                                     FontAwesomeIcons.lock,
                                     size: 25,
                                   ),
-                                  labelText: 'confirm Password',
-                                  hintText: 'confirm your pasword!',
+                                  labelText: 'Confirm Password',
+                                  hintText: 'Confirm your password!',
                                   hintStyle: TextStyle(
                                     color: Colors.black54,
                                   ),
@@ -289,8 +302,8 @@ class _RegisterState extends State<Register> {
                                           });
                                         },
                                       ),
-                                      Text('Male'),
-                                      SizedBox(
+                                      const Text('Male'),
+                                      const SizedBox(
                                         width: 30,
                                       ),
                                       Radio<Gender>(
@@ -302,7 +315,7 @@ class _RegisterState extends State<Register> {
                                           });
                                         },
                                       ),
-                                      Text('Female'),
+                                      const Text('Female'),
                                     ],
                                   ),
                                 ],

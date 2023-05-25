@@ -134,19 +134,19 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       const SizedBox(height: 16.0),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: InkWell(
-                          child: const Text(
-                            'Forgot your password?',
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          onTap: () {},
-                        ),
-                      ),
+                      // Align(
+                      //   alignment: Alignment.topRight,
+                      //   child: InkWell(
+                      //     child: const Text(
+                      //       'Forgot your password?',
+                      //       style: TextStyle(
+                      //           fontSize: 15,
+                      //           color: Colors.black,
+                      //           fontWeight: FontWeight.w400),
+                      //     ),
+                      //     onTap: () {},
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 32,
                       ),

@@ -108,6 +108,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       debugPrint('logout error: $e');
                     }
                   }
+
+                  _logout();
                 }
               }),
             ],

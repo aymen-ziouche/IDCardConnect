@@ -490,6 +490,7 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
                 FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9]+')),
                 LengthLimitingTextInputFormatter(14)
               ],
+              keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,
               textCapitalization: TextCapitalization.characters,
               autofocus: true,
