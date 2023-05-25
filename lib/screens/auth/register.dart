@@ -264,14 +264,26 @@ class _RegisterState extends State<Register> {
                                   }
                                   return null;
                                 },
-                                obscureText: true,
+                                obscureText: !_passwordVisible,
                                 style: const TextStyle(
                                   color: Colors.black,
                                 ),
-                                decoration: const InputDecoration(
-                                  prefixIcon: Icon(
+                                decoration: InputDecoration(
+                                  prefixIcon: const Icon(
                                     FontAwesomeIcons.lock,
                                     size: 25,
+                                  ),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _passwordVisible = !_passwordVisible;
+                                      });
+                                    },
                                   ),
                                   labelText: 'Confirm Password',
                                   hintText: 'Confirm your password!',

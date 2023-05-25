@@ -50,6 +50,50 @@ class Database {
     });
   }
 
+
+    Future<void> updateEmail(String email, String newemail,
+      String password,) async {
+    final user = _auth.currentUser;
+    final credential =
+        EmailAuthProvider.credential(email: email, password: password);
+
+    try {
+      await user!.reauthenticateWithCredential(credential);
+
+      // Update the email
+
+      await user.updateEmail(newemail);
+
+
+      print('Email updated successfully');
+    } catch (e) {
+      print('Error updating email : $e');
+    }
+    // Save the user's information on Firestore
+    await _firestore.collection('users').doc(user!.uid).update({
+      'email': email,
+    });
+  }
+
+    Future<void> updatePass( String email, 
+      String password, String newpassword) async {
+    final user = _auth.currentUser;
+    final credential =
+        EmailAuthProvider.credential(email: email, password: password);
+
+    try {
+      await user!.reauthenticateWithCredential(credential);
+
+      // Update the password
+      await user.updatePassword(newpassword);
+
+      print(' password updated successfully');
+    } catch (e) {
+      print('Error updating email and password: $e');
+    }
+
+  }
+
   Future<void> delete() async {
     final user = _auth.currentUser;
 

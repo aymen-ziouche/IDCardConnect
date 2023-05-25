@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
 import 'package:nfc_id_reader/screens/auth/login.dart';
 import 'package:nfc_id_reader/screens/home/cardpage.dart';
+import 'package:nfc_id_reader/screens/home/editemail.dart';
+import 'package:nfc_id_reader/screens/home/editpass.dart';
 import 'package:nfc_id_reader/screens/home/editprofile.dart';
 import 'package:nfc_id_reader/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -53,14 +55,22 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   PopupMenuItem<int>(
                     value: 1,
-                    child: Text("Show Card"),
+                    child: Text("Edit password"),
                   ),
                   PopupMenuItem<int>(
                     value: 2,
-                    child: Text("Delete Profile"),
+                    child: Text("Edit email"),
                   ),
                   PopupMenuItem<int>(
                     value: 3,
+                    child: Text("Show Card"),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 4,
+                    child: Text("Delete Profile"),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 5,
                     child: Text("Logout"),
                   ),
                 ];
@@ -76,6 +86,26 @@ class _ProfilePageState extends State<ProfilePage> {
                             )),
                       ));
                 } else if (value == 1) {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                            create: (_) => UserProvider(),
+                            child: EditPassword(
+                              myprovider: provider,
+                            )),
+                      ));
+                } else if (value == 2) {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                            create: (_) => UserProvider(),
+                            child: EditEmail(
+                              myprovider: provider,
+                            )),
+                      ));
+                } else if (value == 3) {
                   provider.user!.date_of_birth.isEmpty
                       ? ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -88,13 +118,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               builder: (context) => CardPage(
                                     myprovider: provider,
                                   )));
-                  ;
-                } else if (value == 2) {
+                } else if (value == 4) {
                   final _auth = Auth();
                   final user = _auth.currentUser;
                   Navigator.pushReplacementNamed(context, Login.id);
                   user!.delete();
-                } else if (value == 3) {
+                } else if (value == 5) {
                   final _auth = Auth();
                   Future<void> _logout() async {
                     try {
