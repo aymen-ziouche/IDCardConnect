@@ -190,6 +190,9 @@ class _RegisterState extends State<Register> {
                                   } else if (!validateNumber(val)) {
                                     return 'Invalid number. Number should start with 0.';
                                   }
+                                  if (val.length != 10) {
+                                    return 'The number should be 10 digits long';
+                                  }
                                   return null;
                                 },
                                 inputFormatters: <TextInputFormatter>[
