@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 return const [
                   PopupMenuItem<int>(
                     value: 0,
-                    child: Text("Edit Profile"),
+                    child: Text("Edit Name"),
                   ),
                   PopupMenuItem<int>(
                     value: 1,

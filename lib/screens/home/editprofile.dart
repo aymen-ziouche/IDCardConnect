@@ -17,15 +17,11 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     final db = Database();
     final emailController = TextEditingController();
-    final newemailController = TextEditingController();
     final nameController = TextEditingController();
     final _passwordController = TextEditingController();
-    final _newpasswordController = TextEditingController();
     final emailFocusNode = FocusNode();
-    final newemailFocusNode = FocusNode();
     final nameFocusNode = FocusNode();
     final _passwordFocusNode = FocusNode();
-    final _newpasswordFocusNode = FocusNode();
 
     return SafeArea(
       child: Scaffold(
@@ -88,27 +84,6 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 const SizedBox(height: 34.0),
                 TextFormField(
-                  controller: newemailController,
-                  focusNode: newemailFocusNode,
-                  textInputAction: TextInputAction.next,
-                  style: const TextStyle(
-                    color: Colors.black,
-                  ),
-                  validator: (val) =>
-                      val!.isEmpty ? 'Please enter your New email!' : null,
-                  decoration: InputDecoration(
-                    labelText: 'New Email',
-                    hintText: widget.myprovider.user!.email,
-                    hintStyle: const TextStyle(
-                      color: Colors.black54,
-                    ),
-                    labelStyle: const TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 34.0),
-                TextFormField(
                   controller: _passwordController,
                   focusNode: _passwordFocusNode,
                   validator: (val) => val!.isEmpty
@@ -129,27 +104,6 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 34.0),
-                TextFormField(
-                  controller: _newpasswordController,
-                  focusNode: _newpasswordFocusNode,
-                  validator: (val) =>
-                      val!.isEmpty ? 'Please enter your new password!' : null,
-                  obscureText: true,
-                  style: const TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: const InputDecoration(
-                    labelText: 'new Password',
-                    hintText: 'Enter your new password!',
-                    hintStyle: TextStyle(
-                      color: Colors.black54,
-                    ),
-                    labelStyle: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
                 const SizedBox(
                   height: 50,
                 ),
@@ -160,9 +114,7 @@ class _EditProfileState extends State<EditProfile> {
                     db.updateinfo(
                       nameController.text,
                       emailController.text,
-                      newemailController.text,
                       _passwordController.text,
-                      _newpasswordController.text,
                     );
                     Navigator.pop(context);
                   },

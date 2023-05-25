@@ -23,36 +23,32 @@ class Database {
     });
   }
 
-  Future<void> updateinfo(String name, String email, String newemail,
-      String password, String newpassword) async {
+  Future<void> updateinfo(
+    String name,
+    String email,
+    String password,
+  ) async {
     final user = _auth.currentUser;
     final credential =
         EmailAuthProvider.credential(email: email, password: password);
 
     try {
       await user!.reauthenticateWithCredential(credential);
-
-      // Update the email
-
-      await user.updateEmail(newemail);
-
-      // Update the password
-      await user.updatePassword(newpassword);
-
-      print('Email and password updated successfully');
+      // Save the user's information on Firestore
+      await _firestore.collection('users').doc(user.uid).update({
+        'name': name,
+      });
+      print('Name updated successfully');
     } catch (e) {
-      print('Error updating email and password: $e');
+      print('Error updating Name: $e');
     }
-    // Save the user's information on Firestore
-    await _firestore.collection('users').doc(user!.uid).update({
-      'name': name,
-      'email': email,
-    });
   }
 
-
-    Future<void> updateEmail(String email, String newemail,
-      String password,) async {
+  Future<void> updateEmail(
+    String email,
+    String newemail,
+    String password,
+  ) async {
     final user = _auth.currentUser;
     final credential =
         EmailAuthProvider.credential(email: email, password: password);
@@ -63,7 +59,6 @@ class Database {
       // Update the email
 
       await user.updateEmail(newemail);
-
 
       print('Email updated successfully');
     } catch (e) {
@@ -75,8 +70,8 @@ class Database {
     });
   }
 
-    Future<void> updatePass( String email, 
-      String password, String newpassword) async {
+  Future<void> updatePass(
+      String email, String password, String newpassword) async {
     final user = _auth.currentUser;
     final credential =
         EmailAuthProvider.credential(email: email, password: password);
@@ -91,7 +86,6 @@ class Database {
     } catch (e) {
       print('Error updating email and password: $e');
     }
-
   }
 
   Future<void> delete() async {
