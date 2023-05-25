@@ -1,10 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   final String uid;
   final String name;
   final String email;
-  final String profilePicture;
+  final String gender;
+  final String mobile;
   final String firstname;
   final String lastname;
   final String country;
@@ -13,12 +16,14 @@ class User {
   final String doc_num;
   final String date_of_birth;
   final String date_of_expiry;
+  final Uint8List? image;
 
   User({
     this.uid = '',
     this.name = '',
     this.email = '',
-    this.profilePicture = '',
+    this.gender = '',
+    this.mobile = '',
     this.firstname = '',
     this.lastname = '',
     this.country = '',
@@ -27,6 +32,7 @@ class User {
     this.doc_num = '',
     this.date_of_birth = '',
     this.date_of_expiry = '',
+    this.image,
   });
 
   factory User.fromFirestore(DocumentSnapshot snapshot) {
@@ -35,7 +41,8 @@ class User {
       uid: snapshot.id,
       name: data['name'] ?? '',
       email: data['email'] ?? '',
-      profilePicture: data['profile_picture'] ?? '',
+      gender: data['gender'] ?? '',
+      mobile: data['mobile'] ?? '',
       firstname: data['firstname'] ?? '',
       lastname: data['lastname'] ?? '',
       country: data['country'] ?? '',
@@ -44,6 +51,9 @@ class User {
       doc_num: data['doc_num'] ?? '',
       date_of_birth: data['date_of_birth'] ?? '',
       date_of_expiry: data['date_of_expiry'] ?? '',
+      image: data['image'] != null
+          ? Uint8List.fromList(data['image'].cast<int>())
+          : Uint8List(0),
     );
   }
 }

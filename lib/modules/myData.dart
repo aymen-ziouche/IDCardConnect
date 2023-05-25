@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class MyData {
   String firstname;
   String lastname;
@@ -7,6 +9,7 @@ class MyData {
   String doc_num;
   String date_of_birth;
   String date_of_expiry;
+  Uint8List image;
 
   MyData({
     required this.firstname,
@@ -17,6 +20,7 @@ class MyData {
     required this.doc_num,
     required this.date_of_birth,
     required this.date_of_expiry,
+    required this.image
   });
 }
 

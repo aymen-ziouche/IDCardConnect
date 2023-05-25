@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
 import 'package:nfc_id_reader/screens/auth/login.dart';
+import 'package:nfc_id_reader/screens/home/cardpage.dart';
 import 'package:nfc_id_reader/screens/home/editprofile.dart';
 import 'package:nfc_id_reader/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +37,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           );
         }
+        String gender = provider.user!.gender;
+        var arr = gender.split('.');
+        print(arr);
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -47,6 +53,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   PopupMenuItem<int>(
                     value: 1,
+                    child: Text("Show Card"),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 2,
+                    child: Text("Delete Profile"),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 3,
                     child: Text("Logout"),
                   ),
                 ];
@@ -62,11 +76,29 @@ class _ProfilePageState extends State<ProfilePage> {
                             )),
                       ));
                 } else if (value == 1) {
+                  provider.user!.date_of_birth.isEmpty
+                      ? ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("You dont have any saved data"),
+                          ),
+                        )
+                      : Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CardPage(
+                                    myprovider: provider,
+                                  )));
+                  ;
+                } else if (value == 2) {
+                  final _auth = Auth();
+                  final user = _auth.currentUser;
+                  Navigator.pushReplacementNamed(context, Login.id);
+                  user!.delete();
+                } else if (value == 3) {
                   final _auth = Auth();
                   Future<void> _logout() async {
                     try {
                       await _auth.logout();
-
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(builder: (context) => const Login()),
@@ -89,18 +121,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 160,
-                    width: double.infinity,
-                    child: CircleAvatar(
-                      radius: 100,
-                      backgroundImage:
-                          NetworkImage(provider.user!.profilePicture),
-                    ),
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -158,11 +178,72 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: Text(
+                            "Gender:",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          arr[1],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: Text(
+                            "Number:",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          provider.user!.mobile,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
                   provider.user!.doc_num.isEmpty
-                      ? const SizedBox()
+                      ? Text(
+                          "You Dont have any Saved Data",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        )
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,6 +255,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                 fontSize: 20,
                                 color: Theme.of(context).primaryColor,
                               ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              height: 150,
+                              child: Image.memory(
+                                  provider.user!.image as Uint8List),
                             ),
                             const SizedBox(
                               height: 20,

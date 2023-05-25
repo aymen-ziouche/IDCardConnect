@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:camera/camera.dart';
 import 'package:dmrtd/dmrtd.dart';
 import 'package:dmrtd/extensions.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:nfc_id_reader/modules/mrtd.dart';
 import 'package:logging/logging.dart';
 import 'package:nfc_id_reader/screens/home/detailspage.dart';
+import 'package:nfc_id_reader/widgets/mainButton.dart';
 import 'package:rive/rive.dart';
 
 String formatEfCom(final EfCOM efCom) {
@@ -393,23 +395,11 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
 
     if (_mrtdData!.dg1 != null) {
       list.add(
-        makeMrtdDataWidget(
-          header: 'personal details',
-          collapsedText: '',
-          mrz: _mrtdData!.dg1!.mrz,
-        ),
+        MakeMrtdDataWidget(
+            header: 'personal details',
+            mrz: _mrtdData!.dg1!.mrz,
+            image: _mrtdData!.dg2!.imageData as Uint8List),
       );
-    }
-// Inside your method or function
-    if (_mrtdData!.dg2 != null) {
-      // list.add(
-      //   makeMrtdDataWidget(
-      //     header: 'facial image',
-      //     collapsedText: '',
-      //     mrz: _mrtdData!.dg2!.tag,
-      //   ),
-      // );
-      // logDev.log(_mrtdData!.dg2!.toBytes().hex().toString());
     }
     return list;
   }
@@ -422,8 +412,8 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
               controller: _scrollController,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  const SizedBox(height: 20),
+                children: [
+                  const SizedBox(height: 50),
                   Row(children: <Widget>[
                     const Text('NFC available:',
                         style: TextStyle(
@@ -570,10 +560,31 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
                   if (date != null) {
                     _doe.text = date;
                   }
-                })
+                }),
+            // MainButton(text: "Open Camera", onTap: () {})
           ],
         ),
       ),
     );
   }
+}
+
+Widget _makeMrtdImage(
+    {required String header,
+    required String collapsedText,
+    required dataText}) {
+  return Column(children: [
+    Text(header),
+    Container(
+        padding: const EdgeInsets.all(18),
+        color: Color.fromARGB(255, 239, 239, 239),
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          TextButton(
+            child: Text('Copy'),
+            onPressed: () => Clipboard.setData(ClipboardData(text: dataText)),
+          ),
+          SelectableText(dataText, textAlign: TextAlign.left)
+        ]))
+  ]);
 }

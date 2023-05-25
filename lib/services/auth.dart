@@ -9,23 +9,19 @@ class Auth {
   final _firestore = FirebaseFirestore.instance;
 
   Future<UserCredential> signUp(
-      String email, String password, String name, File image) async {
+      String email, String password, String name, String mobile, String gender) async {
     final authResult = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
 
     final user = authResult.user;
 
-    // Save the profile picture to Firebase Storage
-    final storageRef =
-        FirebaseStorage.instance.ref().child('user_profiles/${user?.uid}');
-    final uploadTask = storageRef.putFile(image);
-    final downloadUrl = await (await uploadTask).ref.getDownloadURL();
 
     // Save the user's information on Firestore
     await _firestore.collection('users').doc(user?.uid).set({
       'name': name,
       'email': email,
-      'profile_picture': downloadUrl,
+      'mobile': mobile,
+      'gender': gender,
     });
     return authResult;
   }

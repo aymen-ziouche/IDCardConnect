@@ -29,10 +29,10 @@ class _LoginState extends State<Login> {
       children: [
         Scaffold(
           body: Align(
-            alignment: Alignment.topRight,
+            alignment: Alignment.topCenter,
             child: Container(
-              height: 200,
-              width: 200,
+              height: 160,
+              width: double.infinity,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topRight,
@@ -43,9 +43,6 @@ class _LoginState extends State<Login> {
                   ],
                 ),
                 color: Theme.of(context).primaryColor,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(200),
-                ),
               ),
             ),
           ),
@@ -55,7 +52,7 @@ class _LoginState extends State<Login> {
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                vertical: 30,
+                vertical: 10,
                 horizontal: 32,
               ),
               child: Form(
@@ -71,7 +68,7 @@ class _LoginState extends State<Login> {
                             .headlineMedium!
                             .copyWith(
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
+                              color: Colors.white,
                             ),
                       ),
                       const SizedBox(height: 20.0),
