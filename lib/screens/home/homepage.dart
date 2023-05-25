@@ -28,7 +28,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> _logout() async {
     try {
       await _auth.logout();
-
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const Login()),
