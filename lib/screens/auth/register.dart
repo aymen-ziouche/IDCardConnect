@@ -97,7 +97,8 @@ class _RegisterState extends State<Register> {
                           ),
                     ),
                     Text(
-                      "Please enter your details to reister on the app",
+                      "Please enter your details to register on the app",
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline4!.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
