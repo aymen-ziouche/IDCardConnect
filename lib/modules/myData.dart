@@ -10,6 +10,7 @@ class MyData {
   String date_of_birth;
   String date_of_expiry;
   Uint8List image;
+  String gender;
 
   MyData({
     required this.firstname,
@@ -20,7 +21,8 @@ class MyData {
     required this.doc_num,
     required this.date_of_birth,
     required this.date_of_expiry,
-    required this.image
+    required this.image,
+    required this.gender,
   });
 }
 

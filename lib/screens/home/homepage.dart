@@ -59,11 +59,12 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          GridView.builder(
+          ListView.builder(
             shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
+            // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //   crossAxisCount: 2,
+            // ),
+            padding: EdgeInsets.all(10),
             itemCount: 3,
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) {

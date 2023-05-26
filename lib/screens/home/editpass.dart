@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
 import 'package:nfc_id_reader/services/database.dart';
 import 'package:nfc_id_reader/widgets/mainButton.dart';
@@ -13,18 +14,27 @@ class EditPassword extends StatefulWidget {
 }
 
 class _EditPasswordState extends State<EditPassword> {
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
+  final db = Database();
+  final emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _newpasswordController = TextEditingController();
+  final emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  final _newpasswordFocusNode = FocusNode();
+  bool _passwordVisible = false;
+  bool _confpasswordVisible = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _passwordVisible = false;
+    _confpasswordVisible = false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-
-    final db = Database();
-    final emailController = TextEditingController();
-    final _passwordController = TextEditingController();
-    final _newpasswordController = TextEditingController();
-    final emailFocusNode = FocusNode();
-    final _passwordFocusNode = FocusNode();
-    final _newpasswordFocusNode = FocusNode();
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(),
@@ -39,7 +49,7 @@ class _EditPasswordState extends State<EditPassword> {
                 children: [
                   const SizedBox(height: 34.0),
                   const Text(
-                    "Update your Info: ",
+                    "Update your Password: ",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                   const SizedBox(height: 68.0),
@@ -53,6 +63,10 @@ class _EditPasswordState extends State<EditPassword> {
                     validator: (val) =>
                         val!.isEmpty ? 'Please enter your email!' : null,
                     decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        Icons.email_outlined,
+                        size: 25,
+                      ),
                       labelText: 'Email',
                       hintText: widget.myprovider.user!.email,
                       hintStyle: const TextStyle(
@@ -67,20 +81,35 @@ class _EditPasswordState extends State<EditPassword> {
                   TextFormField(
                     controller: _passwordController,
                     focusNode: _passwordFocusNode,
-                    validator: (val) => val!.isEmpty
-                        ? 'Please enter your current password!'
-                        : null,
-                    obscureText: true,
+                    validator: (val) =>
+                        val!.isEmpty ? 'Please enter your password!' : null,
+                    obscureText: !_passwordVisible,
                     style: const TextStyle(
                       color: Colors.black,
                     ),
-                    decoration: const InputDecoration(
-                      labelText: 'Current Password',
-                      hintText: 'Enter your current password!',
-                      hintStyle: TextStyle(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        FontAwesomeIcons.lock,
+                        size: 25,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
+                      ),
+                      labelText: 'Password',
+                      hintText: 'Enter your pasword!',
+                      hintStyle: const TextStyle(
                         color: Colors.black54,
                       ),
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         color: Colors.black,
                       ),
                     ),
@@ -91,17 +120,33 @@ class _EditPasswordState extends State<EditPassword> {
                     focusNode: _newpasswordFocusNode,
                     validator: (val) =>
                         val!.isEmpty ? 'Please enter your new password!' : null,
-                    obscureText: true,
+                    obscureText: !_confpasswordVisible,
                     style: const TextStyle(
                       color: Colors.black,
                     ),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        FontAwesomeIcons.lock,
+                        size: 25,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _confpasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _confpasswordVisible = !_confpasswordVisible;
+                          });
+                        },
+                      ),
                       labelText: 'new Password',
                       hintText: 'Enter your new password!',
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         color: Colors.black54,
                       ),
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         color: Colors.black,
                       ),
                     ),
@@ -114,25 +159,24 @@ class _EditPasswordState extends State<EditPassword> {
                     hasCircularBorder: true,
                     onTap: () async {
                       if (_globalKey.currentState!.validate()) {
-                          _globalKey.currentState!.save();
-            
-                          try {
-                            db.updatePass(
+                        _globalKey.currentState!.save();
+
+                        try {
+                          db.updatePass(
                               emailController.text,
                               _passwordController.text,
-                              _newpasswordController.text
-                            );
-                          } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  e.toString(),
-                                ),
+                              _newpasswordController.text);
+                          Navigator.pop(context);
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                e.toString(),
                               ),
-                            );
-                          }
+                            ),
+                          );
                         }
-                        Navigator.pop(context);
+                      }
                     },
                   ),
                 ],

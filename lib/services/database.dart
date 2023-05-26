@@ -15,6 +15,7 @@ class Database {
       "lastname": mydata.lastname,
       "country": mydata.country,
       "nationality": mydata.nationality,
+      "gender": mydata.gender,
       "doc_code": mydata.doc_code,
       "doc_num": mydata.doc_num,
       "date_of_birth": mydata.date_of_birth,

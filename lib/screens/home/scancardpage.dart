@@ -284,7 +284,6 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
       if (mrtdData.com!.dgTags.contains(EfDG2.TAG)) {
         mrtdData.dg2 = await passport.readEfDG2();
       }
-
       if (mrtdData.com!.dgTags.contains(EfDG15.TAG)) {
         mrtdData.dg15 = await passport.readEfDG15();
         _nfc.setIosAlertMessage(formatProgressMsg("Doing AA ...", 60));
@@ -328,7 +327,6 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
         ),
       );
       mrtdData.sod = await passport.readEfSOD();
-
       setState(() {
         _mrtdData = mrtdData;
       });
@@ -342,6 +340,7 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
     } on Exception catch (e) {
       final se = e.toString().toLowerCase();
       String alertMsg = "An error has occurred while reading document!";
+      print(se);
       if (e is PassportError) {
         if (se.contains("security status not satisfied")) {
           alertMsg =
@@ -562,30 +561,9 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
                     _doe.text = date;
                   }
                 }),
-            // MainButton(text: "Open Camera", onTap: () {})
           ],
         ),
       ),
     );
   }
-}
-
-Widget _makeMrtdImage(
-    {required String header,
-    required String collapsedText,
-    required dataText}) {
-  return Column(children: [
-    Text(header),
-    Container(
-        padding: const EdgeInsets.all(18),
-        color: Color.fromARGB(255, 239, 239, 239),
-        child:
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          TextButton(
-            child: Text('Copy'),
-            onPressed: () => Clipboard.setData(ClipboardData(text: dataText)),
-          ),
-          SelectableText(dataText, textAlign: TextAlign.left)
-        ]))
-  ]);
 }

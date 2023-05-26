@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
 import 'package:nfc_id_reader/services/database.dart';
 import 'package:nfc_id_reader/widgets/mainButton.dart';
@@ -13,18 +14,25 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
+  final db = Database();
+  final emailController = TextEditingController();
+  final nameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final emailFocusNode = FocusNode();
+  final nameFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  bool _passwordVisible = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _passwordVisible = false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-
-    final db = Database();
-    final emailController = TextEditingController();
-    final nameController = TextEditingController();
-    final _passwordController = TextEditingController();
-    final emailFocusNode = FocusNode();
-    final nameFocusNode = FocusNode();
-    final _passwordFocusNode = FocusNode();
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(),
@@ -55,6 +63,10 @@ class _EditProfileState extends State<EditProfile> {
                     validator: (val) =>
                         val!.isEmpty ? 'Please enter your name!' : null,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        FontAwesomeIcons.user,
+                        size: 25,
+                      ),
                       labelText: 'Name',
                       hintText: widget.myprovider.user!.name,
                       hintStyle: const TextStyle(
@@ -76,6 +88,10 @@ class _EditProfileState extends State<EditProfile> {
                     validator: (val) =>
                         val!.isEmpty ? 'Please enter your email!' : null,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.email_outlined,
+                        size: 25,
+                      ),
                       labelText: 'Email',
                       hintText: widget.myprovider.user!.email,
                       hintStyle: const TextStyle(
@@ -93,11 +109,27 @@ class _EditProfileState extends State<EditProfile> {
                     validator: (val) => val!.isEmpty
                         ? 'Please enter your current password!'
                         : null,
-                    obscureText: true,
+                    obscureText: !_passwordVisible,
                     style: const TextStyle(
                       color: Colors.black,
                     ),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        FontAwesomeIcons.lock,
+                        size: 25,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
+                      ),
                       labelText: 'Current Password',
                       hintText: 'Enter your current password!',
                       hintStyle: TextStyle(
@@ -117,13 +149,23 @@ class _EditProfileState extends State<EditProfile> {
                     onTap: () async {
                       if (_globalKey.currentState!.validate()) {
                         _globalKey.currentState!.save();
-
                         try {
-                          db.updateinfo(
-                            nameController.text,
-                            emailController.text,
-                            _passwordController.text,
-                          );
+                          db
+                              .updateinfo(
+                                nameController.text,
+                                emailController.text,
+                                _passwordController.text,
+                              )
+                              .onError((error, stackTrace) =>
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        error.toString(),
+                                      ),
+                                    ),
+                                  ));
+
+                          Navigator.pop(context);
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -134,7 +176,6 @@ class _EditProfileState extends State<EditProfile> {
                           );
                         }
                       }
-                      Navigator.pop(context);
                     },
                   ),
                 ],

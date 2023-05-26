@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
 import 'package:nfc_id_reader/screens/auth/register.dart';
 import 'package:nfc_id_reader/screens/home/homepage.dart';
@@ -22,6 +23,14 @@ class _LoginState extends State<Login> {
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
   final _auth = Auth();
+
+  bool _passwordVisible = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _passwordVisible = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +111,10 @@ class _LoginState extends State<Login> {
                         validator: (val) =>
                             val!.isEmpty ? 'Please enter your email!' : null,
                         decoration: const InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.email_outlined,
+                            size: 25,
+                          ),
                           labelText: 'Email',
                           hintText: 'Enter your email!',
                           hintStyle: TextStyle(
@@ -118,17 +131,33 @@ class _LoginState extends State<Login> {
                         focusNode: _passwordFocusNode,
                         validator: (val) =>
                             val!.isEmpty ? 'Please enter your password!' : null,
-                        obscureText: true,
+                        obscureText: !_passwordVisible,
                         style: const TextStyle(
                           color: Colors.black,
                         ),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
+                            FontAwesomeIcons.lock,
+                            size: 25,
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            },
+                          ),
                           labelText: 'Password',
                           hintText: 'Enter your pasword!',
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                             color: Colors.black54,
                           ),
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             color: Colors.black,
                           ),
                         ),

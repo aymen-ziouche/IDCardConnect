@@ -16,6 +16,10 @@ class CardPage extends StatefulWidget {
 class _CardPageState extends State<CardPage> {
   @override
   Widget build(BuildContext context) {
+    String gender = widget.myprovider.user!.gender;
+
+    var arr = gender.split('.');
+
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -147,7 +151,7 @@ class _CardPageState extends State<CardPage> {
                                         TextSpan(
                                           children: [
                                             TextSpan(
-                                                text: "Expires date  ",
+                                                text: "Expires date : ",
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     color: Colors.white,
@@ -156,6 +160,27 @@ class _CardPageState extends State<CardPage> {
                                             TextSpan(
                                                 text: widget.myprovider.user!
                                                     .date_of_expiry,
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: Colors.white)),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: "Gender : ",
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            TextSpan(
+                                                text: arr[1],
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     color: Colors.white)),

@@ -119,10 +119,35 @@ class _ProfilePageState extends State<ProfilePage> {
                                     myprovider: provider,
                                   )));
                 } else if (value == 4) {
-                  final _auth = Auth();
-                  final user = _auth.currentUser;
-                  Navigator.pushReplacementNamed(context, Login.id);
-                  user!.delete();
+                  // Handle Delete Profile
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("Confirmation"),
+                        content: const Text(
+                            "Are you sure you want to delete your profile?"),
+                        actions: [
+                          TextButton(
+                            child: const Text("Cancel"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text("Delete"),
+                            onPressed: () {
+                              final _auth = Auth();
+                              final user = _auth.currentUser;
+                              user!.delete();
+
+                              Navigator.pushReplacementNamed(context, Login.id);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 } else if (value == 5) {
                   final _auth = Auth();
                   Future<void> _logout() async {

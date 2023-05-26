@@ -1,6 +1,3 @@
-
-
-
 import 'package:dmrtd/dmrtd.dart';
 import 'package:flutter/services.dart';
 
@@ -11,6 +8,8 @@ class MrtdData {
   EfSOD? sod;
   EfDG1? dg1;
   EfDG2? dg2;
+  EfDG11? dg11;
+  EfDG12? dg12;
   EfDG15? dg15;
   Uint8List? aaSig;
 }

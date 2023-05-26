@@ -30,6 +30,7 @@ class _MakeMrtdDataWidgetState extends State<MakeMrtdDataWidget> {
         firstname: widget.mrz.firstName,
         lastname: widget.mrz.lastName,
         country: widget.mrz.country,
+        gender: widget.mrz.gender,
         nationality: widget.mrz.nationality,
         doc_code: widget.mrz.documentCode,
         doc_num: widget.mrz.documentNumber,
@@ -87,6 +88,20 @@ class _MakeMrtdDataWidgetState extends State<MakeMrtdDataWidget> {
           children: [
             const Text("Country:"),
             Text(user_data.country),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Divider(),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Gender:"),
+            Text(user_data.gender),
           ],
         ),
         const SizedBox(
@@ -185,6 +200,5 @@ class _MakeMrtdDataWidgetState extends State<MakeMrtdDataWidget> {
         ),
       ],
     );
-    
   }
 }

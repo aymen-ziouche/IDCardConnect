@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
 import 'package:nfc_id_reader/services/database.dart';
 import 'package:nfc_id_reader/widgets/mainButton.dart';
@@ -13,17 +14,24 @@ class EditEmail extends StatefulWidget {
 }
 
 class _EditEmailState extends State<EditEmail> {
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  final db = Database();
+  final emailController = TextEditingController();
+  final newemailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final emailFocusNode = FocusNode();
+  final newemailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  bool _passwordVisible = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _passwordVisible = false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-    final db = Database();
-    final emailController = TextEditingController();
-    final newemailController = TextEditingController();
-    final _passwordController = TextEditingController();
-    final emailFocusNode = FocusNode();
-    final newemailFocusNode = FocusNode();
-    final _passwordFocusNode = FocusNode();
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(),
@@ -45,19 +53,25 @@ class _EditEmailState extends State<EditEmail> {
                   TextFormField(
                     controller: emailController,
                     focusNode: emailFocusNode,
+                    onEditingComplete: () =>
+                        FocusScope.of(context).requestFocus(_passwordFocusNode),
                     textInputAction: TextInputAction.next,
                     style: const TextStyle(
                       color: Colors.black,
                     ),
                     validator: (val) =>
                         val!.isEmpty ? 'Please enter your email!' : null,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.email_outlined,
+                        size: 25,
+                      ),
                       labelText: 'Email',
-                      hintText: widget.myprovider.user!.email,
-                      hintStyle: const TextStyle(
+                      hintText: 'Enter your email!',
+                      hintStyle: TextStyle(
                         color: Colors.black54,
                       ),
-                      labelStyle: const TextStyle(
+                      labelStyle: TextStyle(
                         color: Colors.black,
                       ),
                     ),
@@ -73,6 +87,10 @@ class _EditEmailState extends State<EditEmail> {
                     validator: (val) =>
                         val!.isEmpty ? 'Please enter your New email!' : null,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.email_outlined,
+                        size: 25,
+                      ),
                       labelText: 'New Email',
                       hintText: widget.myprovider.user!.email,
                       hintStyle: const TextStyle(
@@ -87,20 +105,35 @@ class _EditEmailState extends State<EditEmail> {
                   TextFormField(
                     controller: _passwordController,
                     focusNode: _passwordFocusNode,
-                    validator: (val) => val!.isEmpty
-                        ? 'Please enter your current password!'
-                        : null,
-                    obscureText: true,
+                    validator: (val) =>
+                        val!.isEmpty ? 'Please enter your password!' : null,
+                    obscureText: !_passwordVisible,
                     style: const TextStyle(
                       color: Colors.black,
                     ),
-                    decoration: const InputDecoration(
-                      labelText: 'Current Password',
-                      hintText: 'Enter your current password!',
-                      hintStyle: TextStyle(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        FontAwesomeIcons.lock,
+                        size: 25,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
+                      ),
+                      labelText: 'Password',
+                      hintText: 'Enter your pasword!',
+                      hintStyle: const TextStyle(
                         color: Colors.black54,
                       ),
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         color: Colors.black,
                       ),
                     ),
@@ -122,6 +155,7 @@ class _EditEmailState extends State<EditEmail> {
                             newemailController.text,
                             _passwordController.text,
                           );
+                          Navigator.pop(context);
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -132,7 +166,6 @@ class _EditEmailState extends State<EditEmail> {
                           );
                         }
                       }
-                      Navigator.pop(context);
                     },
                   ),
                 ],

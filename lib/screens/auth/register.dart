@@ -40,11 +40,13 @@ class _RegisterState extends State<Register> {
   Gender? _selectedGender;
 
   bool _passwordVisible = false;
+  bool _confpasswordVisible = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _passwordVisible = false;
+    _confpasswordVisible = false;
   }
 
   bool validateNumber(String input) {
@@ -264,7 +266,7 @@ class _RegisterState extends State<Register> {
                                   }
                                   return null;
                                 },
-                                obscureText: !_passwordVisible,
+                                obscureText: !_confpasswordVisible,
                                 style: const TextStyle(
                                   color: Colors.black,
                                 ),
@@ -275,13 +277,14 @@ class _RegisterState extends State<Register> {
                                   ),
                                   suffixIcon: IconButton(
                                     icon: Icon(
-                                      _passwordVisible
+                                      _confpasswordVisible
                                           ? Icons.visibility
                                           : Icons.visibility_off,
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        _passwordVisible = !_passwordVisible;
+                                        _confpasswordVisible =
+                                            !_confpasswordVisible;
                                       });
                                     },
                                   ),
