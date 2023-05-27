@@ -196,6 +196,9 @@ class _RegisterState extends State<Register> {
                                   if (val.length != 10) {
                                     return 'The number should be 10 digits long';
                                   }
+                                  if (!RegExp(r'^(05|06|07)').hasMatch(val)) {
+                                    return 'Number should start with 05, 06, or 07';
+                                  }
                                   return null;
                                 },
                                 inputFormatters: <TextInputFormatter>[
