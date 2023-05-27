@@ -83,12 +83,17 @@ class Database {
 
     try {
       await user!.reauthenticateWithCredential(credential);
-
-      await user.updatePassword(newpassword);
+      print("Print my new password : " + newpassword);
+      await user.updatePassword(newpassword).then((value) => {});
+      await user
+          .updatePassword(newpassword)
+          .then((value) => {print("Password updated!")});
 
       print('password updated successfully');
+      print("Print my new password : " + newpassword);
     } catch (e) {
       print('Error updating password: $e');
+      print("Print my new password : " + newpassword);
     }
   }
 

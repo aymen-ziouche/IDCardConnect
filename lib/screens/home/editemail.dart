@@ -59,8 +59,16 @@ class _EditEmailState extends State<EditEmail> {
                     style: const TextStyle(
                       color: Colors.black,
                     ),
-                    validator: (val) =>
-                        val!.isEmpty ? 'Please enter your email!' : null,
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'Please enter your email!';
+                      } else if (!RegExp(
+                              r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                          .hasMatch(val)) {
+                        return 'Invalid email address';
+                      }
+                      return null;
+                    },
                     decoration: const InputDecoration(
                       prefixIcon: Icon(
                         Icons.email_outlined,
@@ -84,8 +92,16 @@ class _EditEmailState extends State<EditEmail> {
                     style: const TextStyle(
                       color: Colors.black,
                     ),
-                    validator: (val) =>
-                        val!.isEmpty ? 'Please enter your New email!' : null,
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'Please enter your new email!';
+                      } else if (!RegExp(
+                              r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                          .hasMatch(val)) {
+                        return 'Invalid email address';
+                      }
+                      return null;
+                    },
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.email_outlined,

@@ -60,8 +60,16 @@ class _EditPasswordState extends State<EditPassword> {
                     style: const TextStyle(
                       color: Colors.black,
                     ),
-                    validator: (val) =>
-                        val!.isEmpty ? 'Please enter your email!' : null,
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'Please enter your email!';
+                      } else if (!RegExp(
+                              r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                          .hasMatch(val)) {
+                        return 'Invalid email address';
+                      }
+                      return null;
+                    },
                     decoration: InputDecoration(
                       prefixIcon: const Icon(
                         Icons.email_outlined,
