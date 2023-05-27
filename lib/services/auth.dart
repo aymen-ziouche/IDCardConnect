@@ -20,7 +20,7 @@ class Auth {
         'name': name,
         'email': email,
         'mobile': mobile,
-        'gender': gender,
+        'cardGender': gender,
       });
 
       return authResult;

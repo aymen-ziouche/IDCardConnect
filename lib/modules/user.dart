@@ -6,6 +6,7 @@ class User {
   final String uid;
   final String name;
   final String email;
+  final String cardGender;
   final String gender;
   final String mobile;
   final String firstname;
@@ -22,6 +23,7 @@ class User {
     this.uid = '',
     this.name = '',
     this.email = '',
+    this.cardGender = '',
     this.gender = '',
     this.mobile = '',
     this.firstname = '',
@@ -41,6 +43,7 @@ class User {
       uid: snapshot.id,
       name: data['name'] ?? '',
       email: data['email'] ?? '',
+      cardGender: data['cardGender'] ?? '',
       gender: data['gender'] ?? '',
       mobile: data['mobile'] ?? '',
       firstname: data['firstname'] ?? '',

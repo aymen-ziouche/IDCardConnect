@@ -180,7 +180,7 @@ class _CardPageState extends State<CardPage> {
                                                     fontWeight:
                                                         FontWeight.bold)),
                                             TextSpan(
-                                                text: arr[1],
+                                                text: arr[0],
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     color: Colors.white)),

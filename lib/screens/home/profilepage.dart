@@ -39,9 +39,10 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           );
         }
-        String gender = provider.user!.gender;
+        String gender = provider.user!.cardGender;
         var arr = gender.split('.');
         print(arr);
+        print("LONG TEXT TO DEBUG");
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,

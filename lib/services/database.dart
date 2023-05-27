@@ -57,8 +57,6 @@ class Database {
     try {
       await user!.reauthenticateWithCredential(credential);
 
-      // Update the email
-
       await user.updateEmail(newemail);
 
       print('Email updated successfully');
