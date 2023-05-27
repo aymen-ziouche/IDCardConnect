@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nfc_id_reader/modules/myData.dart';
+import 'package:nfc_id_reader/providers/userprovider.dart';
 
 class Database {
   final _auth = FirebaseAuth.instance;
@@ -59,7 +60,12 @@ class Database {
 
       await user.updateEmail(newemail);
 
+      await _firestore.collection('users').doc(user.uid).update({
+        'email': newemail,
+      });
+
       print('Email updated successfully');
+      print(newemail);
     } catch (e) {
       print('Error updating email : $e');
     }
@@ -78,12 +84,11 @@ class Database {
     try {
       await user!.reauthenticateWithCredential(credential);
 
-      // Update the password
       await user.updatePassword(newpassword);
 
-      print(' password updated successfully');
+      print('password updated successfully');
     } catch (e) {
-      print('Error updating email and password: $e');
+      print('Error updating password: $e');
     }
   }
 

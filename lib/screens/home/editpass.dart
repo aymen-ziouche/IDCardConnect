@@ -68,7 +68,7 @@ class _EditPasswordState extends State<EditPassword> {
                         size: 25,
                       ),
                       labelText: 'Email',
-                      hintText: widget.myprovider.user!.email,
+                      hintText: 'Please enter your email!',
                       hintStyle: const TextStyle(
                         color: Colors.black54,
                       ),

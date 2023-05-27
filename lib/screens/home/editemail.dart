@@ -54,7 +54,7 @@ class _EditEmailState extends State<EditEmail> {
                     controller: emailController,
                     focusNode: emailFocusNode,
                     onEditingComplete: () =>
-                        FocusScope.of(context).requestFocus(_passwordFocusNode),
+                        FocusScope.of(context).requestFocus(newemailFocusNode),
                     textInputAction: TextInputAction.next,
                     style: const TextStyle(
                       color: Colors.black,
@@ -92,7 +92,7 @@ class _EditEmailState extends State<EditEmail> {
                         size: 25,
                       ),
                       labelText: 'New Email',
-                      hintText: widget.myprovider.user!.email,
+                      hintText: 'Enter your new email!',
                       hintStyle: const TextStyle(
                         color: Colors.black54,
                       ),
@@ -148,7 +148,7 @@ class _EditEmailState extends State<EditEmail> {
                     onTap: () async {
                       if (_globalKey.currentState!.validate()) {
                         _globalKey.currentState!.save();
-
+                        print("My new email" + newemailController.text);
                         try {
                           db.updateEmail(
                             emailController.text,

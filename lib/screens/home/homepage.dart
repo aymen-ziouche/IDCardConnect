@@ -17,7 +17,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final userProvider = context.read<UserProvider>();
+    userProvider.fetchUser();
+    setState(() {});
+  }
 
   final _auth = Auth();
   Future<void> _logout() async {

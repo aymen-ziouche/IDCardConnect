@@ -169,24 +169,6 @@ class _CardPageState extends State<CardPage> {
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      Text.rich(
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                                text: "Gender : ",
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            TextSpan(
-                                                text: arr[0],
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.white)),
-                                          ],
-                                        ),
-                                      ),
                                       SizedBox(width: 2),
                                     ],
                                   ),

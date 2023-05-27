@@ -93,7 +93,7 @@ class _EditProfileState extends State<EditProfile> {
                         size: 25,
                       ),
                       labelText: 'Email',
-                      hintText: widget.myprovider.user!.email,
+                      hintText: 'Please enter your email!',
                       hintStyle: const TextStyle(
                         color: Colors.black54,
                       ),

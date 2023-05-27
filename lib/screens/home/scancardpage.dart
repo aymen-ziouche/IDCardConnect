@@ -431,6 +431,14 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
                             : _readMRTD,
                     child: Text(_isReading ? 'Reading ...' : 'Read document'),
                   ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Center(
+                    child: Text(_isNfcAvailable ? "" : "Activate your NFC",
+                        style: const TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold)),
+                  ),
                   const SizedBox(height: 4),
                   _isReading
                       ? const SizedBox(
