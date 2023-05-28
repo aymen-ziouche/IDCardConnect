@@ -431,7 +431,7 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
                             : _readMRTD,
                     child: Text(_isReading ? 'Reading ...' : 'Read document'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   Center(
@@ -532,7 +532,6 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
                   final initDate = _getDOBDate();
                   final date = await _pickDate(
                       context, firstDate, initDate ?? lastDate, lastDate);
-
                   FocusScope.of(context).requestFocus(FocusNode());
                   if (date != null) {
                     _dob.text = date;

@@ -84,6 +84,8 @@ flutter:
     - assets/avatar.riv
     - assets/powerbutton.riv
     - assets/logo.png
+    - assets/logo2.png
+    - assets/logo3.png
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

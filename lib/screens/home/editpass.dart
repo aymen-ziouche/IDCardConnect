@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
@@ -168,13 +169,58 @@ class _EditPasswordState extends State<EditPassword> {
                     onTap: () async {
                       if (_globalKey.currentState!.validate()) {
                         _globalKey.currentState!.save();
-
+                        final _auth = FirebaseAuth.instance;
                         try {
-                          db.updatePass(
+                          Future<void> updatePass(String email, String password,
+                              String newpassword) async {
+                            final user = _auth.currentUser;
+                            if (user == null) {
+                              print('User not authenticated');
+                              return;
+                            }
+
+                            final credential = EmailAuthProvider.credential(
+                                email: email, password: password);
+
+                            try {
+                              if (emailController.text != user.email) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("This email is invalid"),
+                                  ),
+                                );
+                              }
+                              await user
+                                  .reauthenticateWithCredential(credential);
+                              print("Print my new password: " + newpassword);
+
+                              await user.updatePassword(newpassword);
+                              print("Password updated!");
+
+                              print('Password updated successfully');
+                              Navigator.pop(context);
+
+                              print("Print my new password: " + newpassword);
+                            } catch (e) {
+                              print('Error updating password: $e');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    e.toString(),
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+
+                          // db.updatePass(
+                          //     emailController.text,
+                          //     _passwordController.text,
+                          //     _newpasswordController.text);
+                          updatePass(
                               emailController.text,
                               _passwordController.text,
                               _newpasswordController.text);
-                          Navigator.pop(context);
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

@@ -5,7 +5,6 @@ import 'package:nfc_id_reader/providers/userprovider.dart';
 import 'package:nfc_id_reader/screens/auth/authgate.dart';
 import 'package:nfc_id_reader/screens/auth/login.dart';
 import 'package:nfc_id_reader/screens/auth/register.dart';
-import 'package:nfc_id_reader/screens/home/cardpage.dart';
 import 'package:nfc_id_reader/screens/home/homepage.dart';
 import 'package:nfc_id_reader/screens/home/profilepage.dart';
 import 'package:nfc_id_reader/screens/home/scancardpage.dart';

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
@@ -165,13 +167,64 @@ class _EditEmailState extends State<EditEmail> {
                       if (_globalKey.currentState!.validate()) {
                         _globalKey.currentState!.save();
                         print("My new email" + newemailController.text);
+                        final _auth = FirebaseAuth.instance;
+                        final _firestore = FirebaseFirestore.instance;
+
                         try {
-                          db.updateEmail(
+                          Future<void> updateEmail(
+                            String email,
+                            String newemail,
+                            String password,
+                          ) async {
+                            final user = _auth.currentUser;
+                            final credential = EmailAuthProvider.credential(
+                                email: email, password: password);
+
+                            try {
+                              if (emailController.text != user!.email) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("This email is invalid"),
+                                  ),
+                                );
+                              }
+                              await user
+                                  .reauthenticateWithCredential(credential);
+
+                              await user.updateEmail(newemail);
+
+                              await _firestore
+                                  .collection('users')
+                                  .doc(user.uid)
+                                  .update({
+                                'email': newemail,
+                              });
+
+                              print('Email updated successfully');
+                              print(newemail);
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Center(child: Text("Success")),
+                                ),
+                              );
+                            } catch (e) {
+                              print('Error updating email : $e');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    e.toString(),
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+
+                          updateEmail(
                             emailController.text,
                             newemailController.text,
                             _passwordController.text,
                           );
-                          Navigator.pop(context);
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

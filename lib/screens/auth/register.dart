@@ -130,9 +130,15 @@ class _RegisterState extends State<Register> {
                                 style: const TextStyle(
                                   color: Colors.black,
                                 ),
-                                validator: (val) => val!.isEmpty
-                                    ? 'Please enter your Full Name!'
-                                    : null,
+                                validator: (val) {
+                                  if (val!.isEmpty) {
+                                    return 'Please enter your Name!';
+                                  } else if (!RegExp(r'^[a-zA-Z ]+$')
+                                      .hasMatch(val)) {
+                                    return 'Invalid name. Only letters and spaces are allowed.';
+                                  }
+                                  return null;
+                                },
                                 decoration: const InputDecoration(
                                   prefixIcon: Icon(
                                     FontAwesomeIcons.user,

@@ -78,22 +78,26 @@ class Database {
   Future<void> updatePass(
       String email, String password, String newpassword) async {
     final user = _auth.currentUser;
+    if (user == null) {
+      print('User not authenticated');
+      return;
+    }
+
     final credential =
         EmailAuthProvider.credential(email: email, password: password);
 
     try {
-      await user!.reauthenticateWithCredential(credential);
-      print("Print my new password : " + newpassword);
-      await user.updatePassword(newpassword).then((value) => {});
-      await user
-          .updatePassword(newpassword)
-          .then((value) => {print("Password updated!")});
+      await user.reauthenticateWithCredential(credential);
+      print("Print my new password: " + newpassword);
 
-      print('password updated successfully');
-      print("Print my new password : " + newpassword);
+      await user.updatePassword(newpassword);
+      print("Password updated!");
+
+      print('Password updated successfully');
+      print("Print my new password: " + newpassword);
     } catch (e) {
       print('Error updating password: $e');
-      print("Print my new password : " + newpassword);
+      print("Print my new password: " + newpassword);
     }
   }
 

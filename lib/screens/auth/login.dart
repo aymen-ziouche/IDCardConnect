@@ -83,10 +83,13 @@ class _LoginState extends State<Login> {
                       const SizedBox(height: 20.0),
                       Center(
                         child: SizedBox(
-                            height: 200,
+                            height: 300,
                             child: Column(
                               children: [
-                                Image.asset('assets/logo.png', height: 150),
+                                Image.asset('assets/logo3.png', height: 250),
+                                const  SizedBox(
+                                  height: 20,
+                                ),
                                 Text(
                                   "Scan your Id Card using NFC",
                                   style: TextStyle(

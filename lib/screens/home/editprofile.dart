@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
@@ -60,10 +62,16 @@ class _EditProfileState extends State<EditProfile> {
                     style: const TextStyle(
                       color: Colors.black,
                     ),
-                    validator: (val) =>
-                        val!.isEmpty ? 'Please enter your name!' : null,
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'Please enter your Name!';
+                      } else if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(val)) {
+                        return 'Invalid name. Only letters and spaces are allowed.';
+                      }
+                      return null;
+                    },
                     decoration: InputDecoration(
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         FontAwesomeIcons.user,
                         size: 25,
                       ),
@@ -157,23 +165,71 @@ class _EditProfileState extends State<EditProfile> {
                     onTap: () async {
                       if (_globalKey.currentState!.validate()) {
                         _globalKey.currentState!.save();
-                        try {
-                          db
-                              .updateinfo(
-                                nameController.text,
-                                emailController.text,
-                                _passwordController.text,
-                              )
-                              .onError((error, stackTrace) =>
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        error.toString(),
-                                      ),
-                                    ),
-                                  ));
+                        final _auth = FirebaseAuth.instance;
+                        final _firestore = FirebaseFirestore.instance;
 
-                          Navigator.pop(context);
+                        try {
+                          Future<void> updateinfo(
+                            String name,
+                            String email,
+                            String password,
+                          ) async {
+                            final user = _auth.currentUser;
+                            final credential = EmailAuthProvider.credential(
+                                email: email, password: password);
+
+                            try {
+                              if (emailController.text != user!.email) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("This email is invalid"),
+                                  ),
+                                );
+                              }
+                              await user
+                                  .reauthenticateWithCredential(credential);
+                              // Save the user's information on Firestore
+                              await _firestore
+                                  .collection('users')
+                                  .doc(user.uid)
+                                  .update({
+                                'name': name,
+                              });
+                              print('Name updated successfully');
+                              Navigator.pop(context);
+                            } catch (e) {
+                              print('Error updating Name: $e');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    e.toString(),
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+
+                          updateinfo(
+                            nameController.text,
+                            emailController.text,
+                            _passwordController.text,
+                          );
+                          // db
+                          //     .updateinfo(
+                          //       nameController.text,
+                          //       emailController.text,
+                          //       _passwordController.text,
+                          //     )
+                          // .onError((error, stackTrace) =>
+                          //     ScaffoldMessenger.of(context).showSnackBar(
+                          //       SnackBar(
+                          //         content: Text(
+                          //           error.toString(),
+                          //         ),
+                          //       ),
+                          //     ));
+
+                          // Navigator.pop(context);
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

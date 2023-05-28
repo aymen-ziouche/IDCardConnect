@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
-          "NfC ID Card Scanner",
+          "NfC ID Card Reader",
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,

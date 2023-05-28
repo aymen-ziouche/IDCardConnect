@@ -222,6 +222,17 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(
                       height: 20,
                     ),
+                    Text(
+                      "Your Personal Data: ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Row(
                       children: [
                         const Expanded(
@@ -333,6 +344,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(
                       height: 20,
                     ),
+                    const Divider(
+                      height: 10,
+                      color: Colors.black,
+                    ),
                     provider.user!.doc_num.isEmpty
                         ? Text(
                             "You Dont have any Saved Data",
@@ -346,6 +361,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
                               Text(
                                 "Your Saved Data: ",
                                 style: TextStyle(
