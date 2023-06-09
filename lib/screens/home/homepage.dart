@@ -92,7 +92,52 @@ class _HomePageState extends State<HomePage> {
                     child: HomePageWidget("Scan Card ", animations[index]));
               } else {
                 return GestureDetector(
-                    onTap: _logout,
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Confirmation"),
+                            content:
+                                const Text("Are you sure you want to logout?"),
+                            actions: [
+                              TextButton(
+                                child: const Text("Cancel"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: const Text("logout"),
+                                onPressed: () {
+                                  final _auth = Auth();
+                                  final user = _auth.currentUser;
+                                  Future<void> _logout() async {
+                                    try {
+                                      await _auth.logout();
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Login()),
+                                        (Route<dynamic> route) => false,
+                                      );
+                                    } catch (e) {
+                                      debugPrint('logout error: $e');
+                                    }
+                                  }
+
+                                  _logout();
+
+                                  Navigator.pushReplacementNamed(
+                                      context, Login.id);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                     child:
                         HomePageWidgett("Logout ", Icons.power_settings_new));
               }

@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class CardPage extends StatefulWidget {
@@ -16,17 +17,13 @@ class CardPage extends StatefulWidget {
 class _CardPageState extends State<CardPage> {
   @override
   Widget build(BuildContext context) {
-    String gender = widget.myprovider.user!.gender;
-
-    var arr = gender.split('.');
-
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 100,
+            const SizedBox(
+              height: 80,
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -34,18 +31,18 @@ class _CardPageState extends State<CardPage> {
                 children: [
                   Container(
                     width: double.infinity - 40,
-                    height: 220,
+                    height: 270,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: const [
+                          colors: [
                             Color.fromARGB(255, 195, 209, 195),
                             Color.fromARGB(255, 90, 114, 94),
                           ]),
                       boxShadow: [
-                        BoxShadow(
+                        const BoxShadow(
                           color: Colors.grey,
                           blurRadius: 15,
                           spreadRadius: 10,
@@ -59,18 +56,34 @@ class _CardPageState extends State<CardPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(15.0),
+                            padding: const EdgeInsets.all(15.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(widget.myprovider.user!.country,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white)),
-                                Text(widget.myprovider.user!.doc_num,
-                                    style: TextStyle(
-                                        fontSize: 20,
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(widget.myprovider.user!.country,
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white)),
+                                    Text(widget.myprovider.user!.wilaya,
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white)),
+                                    Text(widget.myprovider.user!.doc_num,
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white))
+                                  ],
+                                ),
+                                Text(widget.myprovider.user!.doc_longNumber,
+                                    style: const TextStyle(
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white)),
                               ],
@@ -91,86 +104,131 @@ class _CardPageState extends State<CardPage> {
                                           .myprovider.user!.image as Uint8List),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text.rich(
-                                        textAlign: TextAlign.start,
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                                text: "Full Name : ",
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            TextSpan(
+                                  Flexible(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text.rich(
+                                          textAlign: TextAlign.start,
+                                          TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                  text: "Full Name : ",
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              TextSpan(
                                                 text: widget.myprovider.user!
                                                         .firstname +
                                                     " " +
                                                     widget.myprovider.user!
                                                         .lastname,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 13,
-                                                    color: Colors.white)),
-                                          ],
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text.rich(
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                                text: "Birth date : ",
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            TextSpan(
-                                                text: widget.myprovider.user!
-                                                    .date_of_birth,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.white)),
-                                          ],
+                                        const SizedBox(
+                                          height: 10,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text.rich(
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                                text: "Expires date : ",
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            TextSpan(
-                                                text: widget.myprovider.user!
-                                                    .date_of_expiry,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.white)),
-                                          ],
+                                        Text.rich(
+                                          TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                  text: "Birth date : ",
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              TextSpan(
+                                                  text: widget.myprovider.user!
+                                                      .date_of_birth,
+                                                  style: const TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white)),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      SizedBox(width: 2),
-                                    ],
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text.rich(
+                                          TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                  text: "Creation date : ",
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              TextSpan(
+                                                  text: widget.myprovider.user!
+                                                      .date_of_creation,
+                                                  style: const TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white)),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text.rich(
+                                          TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                  text: "Expires date : ",
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              TextSpan(
+                                                  text: widget.myprovider.user!
+                                                      .date_of_expiry,
+                                                  style: const TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white)),
+                                            ],
+                                          ),
+                                        ),
+                                        Text.rich(
+                                          TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                  text: "Gender : ",
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              TextSpan(
+                                                  text: widget.myprovider.user!
+                                                      .cardGender,
+                                                  style: const TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white)),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const SizedBox(width: 2),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -193,11 +251,11 @@ class _CardPageState extends State<CardPage> {
                       height: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                             begin: Alignment.topRight,
                             end: Alignment.bottomLeft,
                             stops: [],
-                            colors: const [
+                            colors: [
                               Color.fromARGB(255, 255, 255, 255),
                               Color.fromARGB(255, 124, 151, 125),
                             ]),
@@ -206,6 +264,27 @@ class _CardPageState extends State<CardPage> {
                   ),
                 ],
               ),
+            ),
+            const Text(
+              "You Can Scan the QR Code",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            QrImageView(
+              data: '''
+        Firstname: ${widget.myprovider.user!.firstname},
+        Lastname: ${widget.myprovider.user!.lastname}
+        Country: ${widget.myprovider.user!.country},
+        place of extraction: ${widget.myprovider.user!.wilaya},
+        Gender: ${widget.myprovider.user!.gender},
+        Nationality: ${widget.myprovider.user!.nationality},
+        Document Type: ${widget.myprovider.user!.doc_code},
+        Document Number: ${widget.myprovider.user!.doc_num},
+        National identification Number: ${widget.myprovider.user!.doc_longNumber},
+        Date of Birth: ${widget.myprovider.user!.date_of_birth},
+        Date of Creation: ${widget.myprovider.user!.date_of_creation},
+        Date of Expiry: ${widget.myprovider.user!.date_of_expiry},''',
+              version: QrVersions.auto,
+              size: 200.0,
             ),
           ],
         ),

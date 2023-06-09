@@ -7,8 +7,11 @@ class MyData {
   String nationality;
   String doc_code;
   String doc_num;
+  String doc_longNumber;
   String date_of_birth;
+  String date_of_creation;
   String date_of_expiry;
+  String wilaya;
   Uint8List image;
   String gender;
 
@@ -19,8 +22,11 @@ class MyData {
     required this.nationality,
     required this.doc_code,
     required this.doc_num,
+    required this.doc_longNumber,
     required this.date_of_birth,
+    required this.date_of_creation,
     required this.date_of_expiry,
+    required this.wilaya,
     required this.image,
     required this.gender,
   });

@@ -15,7 +15,10 @@ class User {
   final String nationality;
   final String doc_code;
   final String doc_num;
+  final String doc_longNumber;
+  final String wilaya;
   final String date_of_birth;
+  final String date_of_creation;
   final String date_of_expiry;
   final Uint8List? image;
 
@@ -32,7 +35,10 @@ class User {
     this.nationality = '',
     this.doc_code = '',
     this.doc_num = '',
+    this.doc_longNumber = '',
+    this.wilaya = '',
     this.date_of_birth = '',
+    this.date_of_creation = '',
     this.date_of_expiry = '',
     this.image,
   });
@@ -52,7 +58,10 @@ class User {
       nationality: data['nationality'] ?? '',
       doc_code: data['doc_code'] ?? '',
       doc_num: data['doc_num'] ?? '',
+      doc_longNumber: data['National identification number'] ?? '',
+      wilaya: data['wilaya'] ?? '',
       date_of_birth: data['date_of_birth'] ?? '',
+      date_of_creation: data['date_of_creation'] ?? '',
       date_of_expiry: data['date_of_expiry'] ?? '',
       image: data['image'] != null
           ? Uint8List.fromList(data['image'].cast<int>())

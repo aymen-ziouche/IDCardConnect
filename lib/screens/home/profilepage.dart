@@ -44,10 +44,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           );
         }
-        String gender = provider.user!.cardGender;
-        var arr = gender.split('.');
-        print(arr);
-        print("LONG TEXT TO DEBUG");
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -130,7 +126,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                     myprovider: provider,
                                   )));
                 } else if (value == 4) {
-                  // Handle Delete Profile
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -305,7 +300,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Expanded(
                           flex: 3,
                           child: Text(
-                            arr[1],
+                            provider.user!.cardGender,
                             style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 18,
@@ -471,6 +466,33 @@ class _ProfilePageState extends State<ProfilePage> {
                                     child: Padding(
                                       padding: EdgeInsets.only(right: 8.0),
                                       child: Text(
+                                        "Wilaya:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      provider.user!.wilaya,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Expanded(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(right: 8.0),
+                                      child: Text(
                                         "Nationality:",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -552,6 +574,33 @@ class _ProfilePageState extends State<ProfilePage> {
                                     child: Padding(
                                       padding: EdgeInsets.only(right: 8.0),
                                       child: Text(
+                                        "National id number:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      provider.user!.doc_longNumber,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Expanded(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(right: 8.0),
+                                      child: Text(
                                         "Date of Birth:",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -564,6 +613,33 @@ class _ProfilePageState extends State<ProfilePage> {
                                     flex: 1,
                                     child: Text(
                                       provider.user!.date_of_birth,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Expanded(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(right: 8.0),
+                                      child: Text(
+                                        "Date of Creation:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      provider.user!.date_of_creation,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 18,

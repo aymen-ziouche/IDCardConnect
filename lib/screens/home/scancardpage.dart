@@ -7,6 +7,7 @@ import 'package:dmrtd/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:nfc_id_reader/modules/cities.dart';
 import 'package:nfc_id_reader/modules/mrtd.dart';
 import 'package:logging/logging.dart';
 import 'package:nfc_id_reader/screens/home/detailspage.dart';
@@ -94,8 +95,14 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
 
   // mrz data
   final _docNumber = TextEditingController();
+  final _doclongNumber = TextEditingController();
   final _dob = TextEditingController(); // date of birth
   final _doe = TextEditingController(); // date of doc expiry
+  final _doc = TextEditingController(); // date of doc creation
+  String? mycity = '';
+  final List<String> cities = algerianWilayas
+      .map((city) => city['wilaya_name_ascii'].toString())
+      .toList(); // city list
 
   MrtdData? _mrtdData;
 
@@ -397,6 +404,9 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
         MakeMrtdDataWidget(
             header: 'personal details',
             mrz: _mrtdData!.dg1!.mrz,
+            date_of_creation: _doc.text,
+            longNumber: _doclongNumber.text,
+            wilaya: mycity.toString(),
             image: _mrtdData!.dg2!.imageData as Uint8List),
       );
     }
@@ -510,6 +520,52 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
             ),
             const SizedBox(height: 12),
             TextFormField(
+              enabled: !_disabledInput(),
+              controller: _doclongNumber,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'National identification number',
+                  fillColor: Colors.white),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9]+')),
+                LengthLimitingTextInputFormatter(14)
+              ],
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
+              textCapitalization: TextCapitalization.characters,
+              autofocus: true,
+              validator: (value) {
+                if (value?.isEmpty ?? false) {
+                  return 'Please enter National identification number';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 12),
+            DropdownButtonFormField<String>(
+              items: cities.map((String city) {
+                return DropdownMenuItem<String>(
+                  value: city,
+                  child: Text(city),
+                );
+              }).toList(),
+              onChanged: (String? selectedCity) {
+                mycity = selectedCity;
+              },
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'City',
+                fillColor: Colors.white,
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please select your wilaya';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
                 enabled: !_disabledInput(),
                 controller: _dob,
                 decoration: const InputDecoration(
@@ -525,7 +581,6 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
                 },
                 onTap: () async {
                   FocusScope.of(context).requestFocus(FocusNode());
-                  // Can pick date which dates 15 years back or more
                   final now = DateTime.now();
                   final firstDate = DateTime(now.year - 90, now.month, now.day);
                   final lastDate = DateTime(now.year - 15, now.month, now.day);
@@ -535,6 +590,36 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
                   FocusScope.of(context).requestFocus(FocusNode());
                   if (date != null) {
                     _dob.text = date;
+                  }
+                }),
+            const SizedBox(height: 12),
+            TextFormField(
+                enabled: !_disabledInput(),
+                controller: _doc,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Date of creation',
+                    fillColor: Colors.white),
+                autofocus: false,
+                validator: (value) {
+                  if (value?.isEmpty ?? false) {
+                    return 'Please select Date of creation';
+                  }
+                  return null;
+                },
+                onTap: () async {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  final now = DateTime.now();
+                  final firstDate =
+                      DateTime(now.year - 20, now.month, now.day + 1);
+                  final lastDate = DateTime(now.year, now.month + 6, now.day);
+                  final initDate = _getDOEDate();
+                  final date = await _pickDate(
+                      context, firstDate, initDate ?? firstDate, lastDate);
+
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  if (date != null) {
+                    _doc.text = date;
                   }
                 }),
             const SizedBox(height: 12),

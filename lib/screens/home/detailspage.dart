@@ -10,11 +10,17 @@ import 'package:nfc_id_reader/widgets/mainButton.dart';
 class MakeMrtdDataWidget extends StatefulWidget {
   String header;
   MRZ mrz;
+  String date_of_creation;
+  String longNumber;
+  String wilaya;
   Uint8List image;
   MakeMrtdDataWidget({
     super.key,
     required this.header,
     required this.mrz,
+    required this.date_of_creation,
+    required this.longNumber,
+    required this.wilaya,
     required this.image,
   });
 
@@ -34,8 +40,11 @@ class _MakeMrtdDataWidgetState extends State<MakeMrtdDataWidget> {
         nationality: widget.mrz.nationality,
         doc_code: widget.mrz.documentCode,
         doc_num: widget.mrz.documentNumber,
-        date_of_birth: '${DateFormat.yMd().format(widget.mrz.dateOfBirth)}',
-        date_of_expiry: '${DateFormat.yMd().format(widget.mrz.dateOfExpiry)}',
+        doc_longNumber: widget.longNumber,
+        date_of_birth: DateFormat.yMd().format(widget.mrz.dateOfBirth),
+        date_of_creation: widget.date_of_creation,
+        date_of_expiry: DateFormat.yMd().format(widget.mrz.dateOfExpiry),
+        wilaya: widget.wilaya,
         image: widget.image);
 
     return Column(
@@ -156,8 +165,50 @@ class _MakeMrtdDataWidgetState extends State<MakeMrtdDataWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            const Text("National identification number:"),
+            Text(user_data.doc_longNumber),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Divider(),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Place of extraction:"),
+            Text(user_data.wilaya),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Divider(),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
             const Text("Date of Birth:"),
             Text(user_data.date_of_birth),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Divider(),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Date of Creation:"),
+            Text(user_data.date_of_creation),
           ],
         ),
         const SizedBox(

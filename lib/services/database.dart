@@ -19,7 +19,10 @@ class Database {
       "gender": mydata.gender,
       "doc_code": mydata.doc_code,
       "doc_num": mydata.doc_num,
+      "National identification number": mydata.doc_longNumber,
+      "wilaya": mydata.wilaya,
       "date_of_birth": mydata.date_of_birth,
+      "date_of_creation": mydata.date_of_creation,
       "date_of_expiry": mydata.date_of_expiry,
       "image": mydata.image,
     });

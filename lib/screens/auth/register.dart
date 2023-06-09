@@ -37,7 +37,7 @@ class _RegisterState extends State<Register> {
   final _passwordFocusNode = FocusNode();
   final _confirmpasswordFocusNode = FocusNode();
   final _auth = Auth();
-  Gender? _selectedGender;
+  String? _selectedGender;
 
   bool _passwordVisible = false;
   bool _confpasswordVisible = false;
@@ -329,10 +329,10 @@ class _RegisterState extends State<Register> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Radio<Gender>(
-                                        value: Gender.Male,
+                                      Radio(
+                                        value: 'Male',
                                         groupValue: _selectedGender,
-                                        onChanged: (Gender? value) {
+                                        onChanged: (value) {
                                           setState(() {
                                             _selectedGender = value;
                                           });
@@ -342,10 +342,10 @@ class _RegisterState extends State<Register> {
                                       const SizedBox(
                                         width: 30,
                                       ),
-                                      Radio<Gender>(
-                                        value: Gender.Female,
+                                      Radio(
+                                        value: "Female",
                                         groupValue: _selectedGender,
-                                        onChanged: (Gender? value) {
+                                        onChanged: (value) {
                                           setState(() {
                                             _selectedGender = value;
                                           });
