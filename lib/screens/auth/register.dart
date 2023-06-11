@@ -1,12 +1,10 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
+import 'package:nfc_id_reader/screens/auth/emailverify.dart';
 import 'package:nfc_id_reader/screens/auth/login.dart';
 import 'package:nfc_id_reader/screens/home/homepage.dart';
-import 'package:nfc_id_reader/screens/home/scancardpage.dart';
 import 'package:nfc_id_reader/services/auth.dart';
 import 'package:nfc_id_reader/widgets/mainButton.dart';
 import 'package:provider/provider.dart';
@@ -416,7 +414,8 @@ class _RegisterState extends State<Register> {
                                           builder: (context) =>
                                               ChangeNotifierProvider(
                                                   create: (_) => UserProvider(),
-                                                  child: const HomePage()),
+                                                  child:
+                                                      const EmailVerifyScreen()),
                                         ));
                                   }
                                 },

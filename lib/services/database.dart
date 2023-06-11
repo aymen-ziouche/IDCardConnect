@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nfc_id_reader/modules/myData.dart';
-import 'package:nfc_id_reader/providers/userprovider.dart';
 
 class Database {
   final _auth = FirebaseAuth.instance;

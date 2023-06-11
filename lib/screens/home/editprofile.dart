@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
 import 'package:nfc_id_reader/services/database.dart';
 import 'package:nfc_id_reader/widgets/mainButton.dart';
-import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
   UserProvider myprovider;
@@ -197,6 +196,12 @@ class _EditProfileState extends State<EditProfile> {
                               });
                               print('Name updated successfully');
                               Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Center(
+                                      child: Text("Name updated successfully")),
+                                ),
+                              );
                             } catch (e) {
                               print('Error updating Name: $e');
                               ScaffoldMessenger.of(context).showSnackBar(

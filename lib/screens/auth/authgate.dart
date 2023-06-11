@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
 import 'package:nfc_id_reader/screens/auth/login.dart';
 import 'package:nfc_id_reader/screens/home/homepage.dart';
-import 'package:nfc_id_reader/screens/home/scancardpage.dart';
 import 'package:provider/provider.dart';
 
 class AuthGate extends StatefulWidget {

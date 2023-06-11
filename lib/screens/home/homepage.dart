@@ -24,6 +24,12 @@ class _HomePageState extends State<HomePage> {
     final userProvider = context.read<UserProvider>();
     userProvider.fetchUser();
     setState(() {});
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      const snackBar = SnackBar(
+        content: Text('user logged in successfully!'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
   }
 
   final _auth = Auth();

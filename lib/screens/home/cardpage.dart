@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:sensors_plus/sensors_plus.dart';
 
 class CardPage extends StatefulWidget {
   UserProvider myprovider;
@@ -203,6 +202,9 @@ class _CardPageState extends State<CardPage> {
                                                       color: Colors.white)),
                                             ],
                                           ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
                                         ),
                                         Text.rich(
                                           TextSpan(

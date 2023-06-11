@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
 import 'package:nfc_id_reader/services/database.dart';
 import 'package:nfc_id_reader/widgets/mainButton.dart';
-import 'package:provider/provider.dart';
 
 class EditPassword extends StatefulWidget {
   UserProvider myprovider;
@@ -199,6 +198,13 @@ class _EditPasswordState extends State<EditPassword> {
 
                               print('Password updated successfully');
                               Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Center(
+                                      child: Text(
+                                          "Password updated successfully")),
+                                ),
+                              );
 
                               print("Print my new password: " + newpassword);
                             } catch (e) {

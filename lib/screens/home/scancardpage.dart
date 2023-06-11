@@ -1,7 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-
-import 'package:camera/camera.dart';
 import 'package:dmrtd/dmrtd.dart';
 import 'package:dmrtd/extensions.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +8,6 @@ import 'package:nfc_id_reader/modules/cities.dart';
 import 'package:nfc_id_reader/modules/mrtd.dart';
 import 'package:logging/logging.dart';
 import 'package:nfc_id_reader/screens/home/detailspage.dart';
-import 'package:nfc_id_reader/widgets/mainButton.dart';
 import 'package:rive/rive.dart';
 
 String formatEfCom(final EfCOM efCom) {
@@ -528,7 +524,7 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
                   fillColor: Colors.white),
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9]+')),
-                LengthLimitingTextInputFormatter(14)
+                LengthLimitingTextInputFormatter(25)
               ],
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,
