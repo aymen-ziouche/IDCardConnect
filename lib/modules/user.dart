@@ -18,6 +18,8 @@ class User {
   final String doc_longNumber;
   final String wilaya;
   final String date_of_birth;
+  final String place_of_birth;
+  final String bloodType;
   final String date_of_creation;
   final String date_of_expiry;
   final Uint8List? image;
@@ -38,6 +40,8 @@ class User {
     this.doc_longNumber = '',
     this.wilaya = '',
     this.date_of_birth = '',
+    this.place_of_birth = '',
+    this.bloodType = '',
     this.date_of_creation = '',
     this.date_of_expiry = '',
     this.image,
@@ -61,6 +65,8 @@ class User {
       doc_longNumber: data['National identification number'] ?? '',
       wilaya: data['wilaya'] ?? '',
       date_of_birth: data['date_of_birth'] ?? '',
+      place_of_birth: data['place_of_birth'] ?? '',
+      bloodType: data['bloodType'] ?? '',
       date_of_creation: data['date_of_creation'] ?? '',
       date_of_expiry: data['date_of_expiry'] ?? '',
       image: data['image'] != null

@@ -13,6 +13,8 @@ class MakeMrtdDataWidget extends StatefulWidget {
   String date_of_creation;
   String longNumber;
   String wilaya;
+  String bloodType;
+  String pob;
   Uint8List image;
   MakeMrtdDataWidget({
     super.key,
@@ -21,6 +23,8 @@ class MakeMrtdDataWidget extends StatefulWidget {
     required this.date_of_creation,
     required this.longNumber,
     required this.wilaya,
+    required this.bloodType,
+    required this.pob,
     required this.image,
   });
 
@@ -45,6 +49,8 @@ class _MakeMrtdDataWidgetState extends State<MakeMrtdDataWidget> {
         date_of_creation: widget.date_of_creation,
         date_of_expiry: DateFormat.yMd().format(widget.mrz.dateOfExpiry),
         wilaya: widget.wilaya,
+        bloodType: widget.bloodType,
+        place_of_birth: widget.pob,
         image: widget.image);
 
     return Column(
@@ -166,7 +172,7 @@ class _MakeMrtdDataWidgetState extends State<MakeMrtdDataWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text("National identification number:"),
-            Text(user_data.doc_longNumber),
+            Flexible(child: Text(user_data.doc_longNumber)),
           ],
         ),
         const SizedBox(
@@ -223,6 +229,34 @@ class _MakeMrtdDataWidgetState extends State<MakeMrtdDataWidget> {
           children: [
             const Text("Date of expiry:"),
             Text(user_data.date_of_expiry),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Divider(),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Place of birth:"),
+            Text(user_data.place_of_birth),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Divider(),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Blood Type:"),
+            Text(user_data.bloodType),
           ],
         ),
         const SizedBox(

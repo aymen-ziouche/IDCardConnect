@@ -12,6 +12,8 @@ class MyData {
   String date_of_creation;
   String date_of_expiry;
   String wilaya;
+  String bloodType;
+  String place_of_birth;
   Uint8List image;
   String gender;
 
@@ -27,6 +29,8 @@ class MyData {
     required this.date_of_creation,
     required this.date_of_expiry,
     required this.wilaya,
+    required this.bloodType,
+    required this.place_of_birth,
     required this.image,
     required this.gender,
   });

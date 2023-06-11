@@ -25,12 +25,11 @@ class _CardPageState extends State<CardPage> {
               height: 80,
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: Stack(
                 children: [
                   Container(
-                    width: double.infinity - 40,
-                    height: 270,
+                    height: 320,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       gradient: const LinearGradient(
@@ -65,24 +64,24 @@ class _CardPageState extends State<CardPage> {
                                   children: [
                                     Text(widget.myprovider.user!.country,
                                         style: const TextStyle(
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white)),
                                     Text(widget.myprovider.user!.wilaya,
                                         style: const TextStyle(
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white)),
                                     Text(widget.myprovider.user!.doc_num,
                                         style: const TextStyle(
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white))
                                   ],
                                 ),
                                 Text(widget.myprovider.user!.doc_longNumber,
                                     style: const TextStyle(
-                                        fontSize: 15,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white)),
                               ],
@@ -98,7 +97,7 @@ class _CardPageState extends State<CardPage> {
                                   Align(
                                     alignment: Alignment.bottomLeft,
                                     child: SizedBox(
-                                      height: 120,
+                                      height: 150,
                                       child: Image.memory(widget
                                           .myprovider.user!.image as Uint8List),
                                     ),
@@ -153,6 +152,28 @@ class _CardPageState extends State<CardPage> {
                                               TextSpan(
                                                   text: widget.myprovider.user!
                                                       .date_of_birth,
+                                                  style: const TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white)),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text.rich(
+                                          TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                  text: "Birth Place : ",
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              TextSpan(
+                                                  text: widget.myprovider.user!
+                                                      .place_of_birth,
                                                   style: const TextStyle(
                                                       fontSize: 13,
                                                       color: Colors.white)),
@@ -225,6 +246,28 @@ class _CardPageState extends State<CardPage> {
                                             ],
                                           ),
                                         ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text.rich(
+                                          TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                  text: "Blood Type : ",
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              TextSpan(
+                                                  text: widget.myprovider.user!
+                                                      .bloodType,
+                                                  style: const TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white)),
+                                            ],
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -275,7 +318,9 @@ class _CardPageState extends State<CardPage> {
         Document Type: ${widget.myprovider.user!.doc_code},
         Document Number: ${widget.myprovider.user!.doc_num},
         National identification Number: ${widget.myprovider.user!.doc_longNumber},
+        blood Type: ${widget.myprovider.user!.bloodType}
         Date of Birth: ${widget.myprovider.user!.date_of_birth},
+        Place of Birth: ${widget.myprovider.user!.place_of_birth},
         Date of Creation: ${widget.myprovider.user!.date_of_creation},
         Date of Expiry: ${widget.myprovider.user!.date_of_expiry},''',
               version: QrVersions.auto,

@@ -4,6 +4,7 @@ import 'package:dmrtd/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:nfc_id_reader/modules/bloodtypes.dart';
 import 'package:nfc_id_reader/modules/cities.dart';
 import 'package:nfc_id_reader/modules/mrtd.dart';
 import 'package:logging/logging.dart';
@@ -92,13 +93,17 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
   // mrz data
   final _docNumber = TextEditingController();
   final _doclongNumber = TextEditingController();
+  final _pob = TextEditingController();
   final _dob = TextEditingController(); // date of birth
   final _doe = TextEditingController(); // date of doc expiry
   final _doc = TextEditingController(); // date of doc creation
   String? mycity = '';
+  String? bloodType = '';
   final List<String> cities = algerianWilayas
       .map((city) => city['wilaya_name_ascii'].toString())
       .toList(); // city list
+  final List<String> bloodtypes =
+      bloodTypes.map((type) => type['bloodType'].toString()).toList();
 
   MrtdData? _mrtdData;
 
@@ -403,6 +408,8 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
             date_of_creation: _doc.text,
             longNumber: _doclongNumber.text,
             wilaya: mycity.toString(),
+            bloodType: bloodType.toString(),
+            pob: _pob.text,
             image: _mrtdData!.dg2!.imageData as Uint8List),
       );
     }
@@ -555,7 +562,7 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please select your wilaya';
+                  return 'Please select your place of issue';
                 }
                 return null;
               },
@@ -649,6 +656,48 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
                     _doe.text = date;
                   }
                 }),
+            const SizedBox(height: 12),
+            TextFormField(
+              enabled: !_disabledInput(),
+              controller: _pob,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'place of birth',
+                  fillColor: Colors.white),
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.done,
+              textCapitalization: TextCapitalization.characters,
+              autofocus: true,
+              validator: (value) {
+                if (value?.isEmpty ?? false) {
+                  return 'Please enter your place of birth';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 12),
+            DropdownButtonFormField<String>(
+              items: bloodtypes.map((String type) {
+                return DropdownMenuItem<String>(
+                  value: type,
+                  child: Text(type),
+                );
+              }).toList(),
+              onChanged: (String? selected) {
+                bloodType = selected;
+              },
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Blood Type',
+                fillColor: Colors.white,
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please select your Blood Type';
+                }
+                return null;
+              },
+            ),
           ],
         ),
       ),

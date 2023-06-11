@@ -21,6 +21,8 @@ class Database {
       "National identification number": mydata.doc_longNumber,
       "wilaya": mydata.wilaya,
       "date_of_birth": mydata.date_of_birth,
+      "place_of_birth": mydata.place_of_birth,
+      "bloodType": mydata.bloodType,
       "date_of_creation": mydata.date_of_creation,
       "date_of_expiry": mydata.date_of_expiry,
       "image": mydata.image,
