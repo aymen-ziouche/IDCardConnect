@@ -225,17 +225,10 @@ class _CardPageState extends State<CardPage> {
                                             ],
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        const SizedBox(width: 2),
                                       ],
                                     ),
                                   ),
                                 ],
-                              ),
-                              const SizedBox(
-                                height: 10,
                               ),
                               const SizedBox(
                                 height: 10,

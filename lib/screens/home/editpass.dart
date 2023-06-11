@@ -70,17 +70,17 @@ class _EditPasswordState extends State<EditPassword> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(
                         Icons.email_outlined,
                         size: 25,
                       ),
                       labelText: 'Email',
                       hintText: 'Please enter your email!',
-                      hintStyle: const TextStyle(
+                      hintStyle: TextStyle(
                         color: Colors.black54,
                       ),
-                      labelStyle: const TextStyle(
+                      labelStyle: TextStyle(
                         color: Colors.black,
                       ),
                     ),
@@ -184,17 +184,27 @@ class _EditPasswordState extends State<EditPassword> {
                             try {
                               if (emailController.text != user.email) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text("This email is invalid"),
                                   ),
                                 );
+                                return; // Stop the execution if the email is invalid
                               }
+
                               await user
                                   .reauthenticateWithCredential(credential);
-                              print("Print my new password: " + newpassword);
+
+                              if (password == newpassword) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "New password should be different from the current password"),
+                                  ),
+                                );
+                                return; // Stop the execution if the new password is the same as the current password
+                              }
 
                               await user.updatePassword(newpassword);
-                              print("Password updated!");
 
                               print('Password updated successfully');
                               Navigator.pop(context);
@@ -205,24 +215,16 @@ class _EditPasswordState extends State<EditPassword> {
                                           "Password updated successfully")),
                                 ),
                               );
-
-                              print("Print my new password: " + newpassword);
                             } catch (e) {
                               print('Error updating password: $e');
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(
-                                    e.toString(),
-                                  ),
+                                  content: Text(e.toString()),
                                 ),
                               );
                             }
                           }
 
-                          // db.updatePass(
-                          //     emailController.text,
-                          //     _passwordController.text,
-                          //     _newpasswordController.text);
                           updatePass(
                               emailController.text,
                               _passwordController.text,
@@ -230,9 +232,7 @@ class _EditPasswordState extends State<EditPassword> {
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(
-                                e.toString(),
-                              ),
+                              content: Text(e.toString()),
                             ),
                           );
                         }

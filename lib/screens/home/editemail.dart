@@ -198,22 +198,21 @@ class _EditEmailState extends State<EditEmail> {
                                   .update({
                                 'email': newemail,
                               });
-
                               print('Email updated successfully');
                               print(newemail);
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Center(child: Text("Email updated successfully")),
+                                  content: Center(
+                                      child:
+                                          Text("Email updated successfully")),
                                 ),
                               );
                             } catch (e) {
                               print('Error updating email : $e');
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(
-                                    'Error updating email : $e'
-                                  ),
+                                  content: Text('Error updating email : $e'),
                                 ),
                               );
                             }
