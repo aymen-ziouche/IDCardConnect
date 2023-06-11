@@ -187,7 +187,6 @@ class _EditProfileState extends State<EditProfile> {
                               }
                               await user
                                   .reauthenticateWithCredential(credential);
-                              // Save the user's information on Firestore
                               await _firestore
                                   .collection('users')
                                   .doc(user.uid)

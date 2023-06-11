@@ -190,6 +190,16 @@ class _EditEmailState extends State<EditEmail> {
                               await user
                                   .reauthenticateWithCredential(credential);
 
+                              if (email == newemail) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "New email should be different from the current email"),
+                                  ),
+                                );
+                                return; // Stop the execution if the new email is the same as the current email
+                              }
+
                               await user.updateEmail(newemail);
 
                               await _firestore
