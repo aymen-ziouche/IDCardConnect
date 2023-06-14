@@ -555,7 +555,8 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
               onChanged: (String? selectedCity) {
                 mycity = selectedCity;
               },
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                enabled: !_disabledInput(),
                 border: OutlineInputBorder(),
                 labelText: 'City',
                 fillColor: Colors.white,
@@ -660,7 +661,8 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
             TextFormField(
               enabled: !_disabledInput(),
               controller: _pob,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                  enabled: !_disabledInput(),
                   border: OutlineInputBorder(),
                   labelText: 'place of birth',
                   fillColor: Colors.white),
@@ -686,7 +688,8 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
               onChanged: (String? selected) {
                 bloodType = selected;
               },
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                enabled: !_disabledInput(),
                 border: OutlineInputBorder(),
                 labelText: 'Blood Type',
                 fillColor: Colors.white,
