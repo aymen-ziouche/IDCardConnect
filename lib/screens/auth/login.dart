@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nfc_id_reader/providers/userprovider.dart';
+import 'package:nfc_id_reader/screens/auth/forgotPass.dart';
 import 'package:nfc_id_reader/screens/auth/register.dart';
 import 'package:nfc_id_reader/screens/home/homepage.dart';
 import 'package:nfc_id_reader/services/auth.dart';
@@ -87,7 +88,7 @@ class _LoginState extends State<Login> {
                             child: Column(
                               children: [
                                 Image.asset('assets/logo3.png', height: 250),
-                                const  SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Text(
@@ -174,19 +175,25 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       const SizedBox(height: 16.0),
-                      // Align(
-                      //   alignment: Alignment.topRight,
-                      //   child: InkWell(
-                      //     child: const Text(
-                      //       'Forgot your password?',
-                      //       style: TextStyle(
-                      //           fontSize: 15,
-                      //           color: Colors.black,
-                      //           fontWeight: FontWeight.w400),
-                      //     ),
-                      //     onTap: () {},
-                      //   ),
-                      // ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: InkWell(
+                          child: const Text(
+                            'Forgot your password?',
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return ForgotPassword();
+                              },
+                            ));
+                          },
+                        ),
+                      ),
                       const SizedBox(
                         height: 32,
                       ),
