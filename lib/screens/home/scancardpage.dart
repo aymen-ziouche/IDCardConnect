@@ -689,11 +689,10 @@ class _MrtdHomePageState extends State<MrtdHomePage> {
                 bloodType = selected;
               },
               decoration: InputDecoration(
-                enabled: !_disabledInput(),
-                border: OutlineInputBorder(),
-                labelText: 'Blood Type',
-                fillColor: Colors.white,
-              ),
+                  enabled: !_disabledInput(),
+                  border: OutlineInputBorder(),
+                  labelText: 'Blood Type',
+                  fillColor: Colors.white),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please select your Blood Type';
