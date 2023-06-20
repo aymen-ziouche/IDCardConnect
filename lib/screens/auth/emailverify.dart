@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nfc_id_reader/screens/auth/login.dart';
 import 'package:nfc_id_reader/screens/home/homepage.dart';
-import 'package:nfc_id_reader/services/auth.dart';
 
 class EmailVerifyScreen extends StatefulWidget {
   const EmailVerifyScreen({Key? key}) : super(key: key);

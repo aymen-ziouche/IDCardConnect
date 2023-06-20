@@ -236,9 +236,14 @@ class _RegisterState extends State<Register> {
                               TextFormField(
                                 controller: _passwordController,
                                 focusNode: _passwordFocusNode,
-                                validator: (val) => val!.isEmpty
-                                    ? 'Please enter your password!'
-                                    : null,
+                                validator: (val) {
+                                  if (val!.isEmpty) {
+                                    return 'Please enter your password!';
+                                  } else if (val.length < 6) {
+                                    return 'Password must be at least 6 characters long!';
+                                  }
+                                  return null;
+                                },
                                 obscureText: !_passwordVisible,
                                 style: const TextStyle(
                                   color: Colors.black,
